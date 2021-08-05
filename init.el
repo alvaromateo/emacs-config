@@ -28,6 +28,32 @@
 	     :config
 	     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+(use-package counsel
+  :ensure t
+  )
+
+(use-package swiper
+  :ensure try
+  :config
+  (progn
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (global-set-key "\C-s" 'swiper)
+    (global-set-key (kbd "C-c C-r") 'ivy-resume)
+    (global-set-key (kbd "M-x") 'counsel-M-x)
+    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+    ))
+
+(use-package ace-window
+  :ensure t
+  :init
+  (progn
+    (global-set-key [remap other-window] 'ace-window)
+    (custom-set-faces
+     '(aw-leading-char-face
+       ((t (:inherit ace-jump-face-foreground :height 3.0))))) 
+    ))
+
 
 ;; My own configuration
 
@@ -50,14 +76,25 @@
 ;; Make the saved files go to a different place than current folder
 (setq backup-directory-alist `(("." . "~/.emacsSaves")))
 
-(menu-bar-mode -1) ;; Disable menu bar (file, edit, etc.)
-(tool-bar-mode -1) ;; Disable tool bar (icons to open file, new file, etc.)
+(menu-bar-mode -1)   ;; Disable menu bar (file, edit, etc.)
+(tool-bar-mode -1)   ;; Disable tool bar (icons to open file, new file, etc.)
+(scroll-bar-mode -1) ;; Disable scroll bar
 
 (global-linum-mode t) ;; Set line numbers to the left of emacs window
+(global-visual-line-mode t) ;; Set line wrapping globally
+(global-set-key (kbd "C-x C-b") 'ibuffer)  ;; set ibuffer as default
 
 ;; Make emacs start maximized
 (custom-set-variables
- '(initial-frame-alist (quote ((fullscreen . maximized)))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
+ '(default-frame-alist (quote ((fullscreen . maximized))))
+ '(package-selected-packages
+   (quote
+    (ace-window counsel doom-themes org-bullets which-key try use-package solarized-theme))))
 
 ;; Style commands
 (require 'doom-themes)
@@ -74,14 +111,7 @@
 
 ;; Automatically added lines
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (doom-themes org-bullets which-key try use-package solarized-theme))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
